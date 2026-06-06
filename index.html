@@ -3,15 +3,98 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shark Shopfits Workspace</title>
+  <title>Shark Shopfits</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background-color: #020617; }
-    iframe { width: 100%; height: 100%; border: none; }
+    body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background-color: #020617; font-family: sans-serif; }
+    .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+    @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
   </style>
 </head>
-<body>
+<body class="text-slate-200">
 
-  <iframe src="https://script.google.com/macros/s/AKfycbwWBCPhbnfqwhdJk2viE0Dg-OzBEi7jPhzjR4G4KCwOWy0eH62pUi1DWjjmz6QKYOuX/exec"></iframe>
+  <div id="authGatekeeper" class="absolute inset-0 z-50 flex items-center justify-center p-4 bg-slate-950 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-black">
+    <div class="max-w-md w-full bg-slate-900/60 backdrop-blur-xl border border-slate-800 p-8 rounded-2xl shadow-2xl shadow-black/80 fade-in space-y-6 text-center">
+      
+      <div class="space-y-2">
+        <div class="inline-flex bg-indigo-600/10 text-indigo-400 p-3.5 rounded-2xl border border-indigo-500/20 shadow-inner">
+          <i class="fa-solid fa-shield-halved text-2xl"></i>
+        </div>
+        <h2 class="text-xl font-bold tracking-tight text-white mt-2">Protected Infrastructure Terminal</h2>
+        <p class="text-xs text-slate-500 font-medium">Shark Shopfits Workspace</p>
+      </div>
 
+      <form onsubmit="verifyGatewayCredentials(event)" class="space-y-4 text-left">
+        <div>
+          <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">User Operator Identity</label>
+          <div class="relative">
+            <i class="fa-regular fa-user absolute left-3.5 top-3 text-slate-650 text-xs"></i>
+            <input type="text" id="gateUser" required placeholder="admin" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl py-2 pl-9 pr-4 text-xs text-white focus:outline-none focus:border-indigo-500 transition placeholder-slate-700">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">Security Passkey Code</label>
+          <div class="relative">
+            <i class="fa-solid fa-lock absolute left-3.5 top-3 text-slate-650 text-xs"></i>
+            <input type="password" id="gatePass" required placeholder="••••••••" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl py-2 pl-9 pr-4 text-xs text-white focus:outline-none focus:border-indigo-500 transition placeholder-slate-700">
+          </div>
+        </div>
+
+        <p id="errorLabel" class="text-[11px] text-rose-400 font-medium text-center hidden flex items-center justify-center gap-1">
+          <i class="fa-solid fa-triangle-exclamation"></i> Invalid operator credentials. Access Denied.
+        </p>
+
+        <button type="submit" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl transition shadow-lg shadow-indigo-600/20 flex items-center justify-center gap-1.5 mt-2">
+          <i class="fa-solid fa-right-to-bracket text-xs"></i> Initialize Console Link
+        </button>
+      </form>
+
+      <div class="text-[10px] text-slate-600 font-medium pt-2 border-t border-slate-800/60">
+        Authorized Personnel Only &bull; All sessions logged under security protocol
+      </div>
+    </div>
+  </div>
+
+  <div id="appContainer" class="w-full h-full hidden"></div>
+
+  <script>
+    // ==========================================
+    // DEFINE SECURITY KEYS (Change these to your preference)
+    // ==========================================
+    const GATEWAY_USER = "admin"; 
+    const GATEWAY_PASS = "Shark@#2020"; // Set your custom password here
+    
+    // Paste your exact deployed Google Appscript URL link here
+    const INVENTORY_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwWBCPhbnfqwhdJk2viE0Dg-OzBEi7jPhzjR4G4KCwOWy0eH62pUi1DWjjmz6QKYOuX/exec";
+
+    function verifyGatewayCredentials(e) {
+      e.preventDefault();
+      
+      const user = document.getElementById('gateUser').value.trim();
+      const pass = document.getElementById('gatePass').value;
+      const errorLabel = document.getElementById('errorLabel');
+      
+      if(user === GATEWAY_USER && pass === GATEWAY_PASS) {
+        // 1. Clear credentials input cache for memory leak defense
+        document.getElementById('gateUser').value = '';
+        document.getElementById('gatePass').value = '';
+        
+        // 2. Hide Login Form Screen
+        document.getElementById('authGatekeeper').classList.add('hidden');
+        
+        // 3. Mount and dynamically inject secure iframe instance inside DOM
+        const container = document.getElementById('appContainer');
+        container.innerHTML = `<iframe src="${INVENTORY_SCRIPT_URL}" style="width:100%; height:100%; border:none;"></iframe>`;
+        container.classList.remove('hidden');
+      } else {
+        errorLabel.classList.remove('hidden');
+        document.getElementById('gatePass').value = '';
+        document.getElementById('gatePass').focus();
+      }
+    }
+  </script>
 </body>
 </html>
+
